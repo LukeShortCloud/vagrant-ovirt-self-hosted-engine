@@ -2,6 +2,11 @@
 
 This Vagrantfile and Ansible Playbook provides a way to easily setup an all-in-one lab environment for oVirt.
 
+## Requirements
+
+* KVM+QEMU with [nested virtualization enabled](https://github.com/ekultails/rootpages/blob/master/src/virtualization.rst#nested-virtualization)
+* [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt)
+
 ## Usage
 
 Create the virtual machine.
@@ -17,7 +22,7 @@ $ vagrant ssh
 $ sudo hosted-engine --deploy
 ```
 
-Use the default values for everything. Be sure to set the NFS export with the Vagrant machine's IP address.
+Use the default values for everything. Be sure to set the NFS export with the Vagrant virtual machine's IP address.
 
 oVirt 4.1:
 ```
@@ -46,6 +51,17 @@ oVirt 4.2:
           it should not point to the base host or to any other existing machine.
           Engine FQDN:  []: engine.example.com
 ```
+
+### Variables
+
+* ovirt_version_major = The major version of oVirt. This should be left at 4.
+* ovirt_version_minor = The minor version of oVirt to install.
+* enable_branch_development = Install the latest development/snapshot packages corresponding to the version defined above.
+* enable_branch_master = Install the latest packages for the next upcoming minor version of oVirt. This will ignore the previous `ovirt_version_*` settings.
+* nfs_export_dir = The directory to create a network share for and to mount an additional volume to.
+* hostname_hypervisor = The hostname for the Vagrant virtual machine.
+* hostname_ovirt_engine = The hostname to use for the oVirt Engine that will be nested virtualized inside the Vagrant virtual machine. This fully qualified domain name (FQDN) should not already be in use by any other nodes.
+* storage_file_system = The file system to use for the volume that will be created and mounted to the `nfs_export_dir`.
 
 ## Known Issues
 
