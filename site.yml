@@ -1,0 +1,4 @@
+---
+- hosts: ovirt
+  roles:
+    - ovirt_self_hosted_engine

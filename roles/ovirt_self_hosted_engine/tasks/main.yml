@@ -1,0 +1,128 @@
+---
+- name: Setting the hostname
+  hostname:
+    name: "{{ hostname_hypervisor }}"
+
+- name: Installing DNSMasq
+  package:
+    name: dnsmasq
+    state: present
+
+- name: Adding Google nameservers for recursive resolution and hostnames for local resolution
+  lineinfile:
+    path: /etc/dnsmasq.conf
+    backup: yes
+    line: "{{ item }}"
+  with_items:
+    - "server=8.8.8.8"
+    - "server=8.8.4.4"
+    - "address=/{{ hostname_hypervisor }}/{{ ansible_default_ipv4.address }}"
+    - "address=/{{ hostname_ovirt_engine }}/192.168.121.201"
+
+- name: Restart DNSMasq
+  service:
+    name: dnsmasq
+    state: restarted
+    enabled: yes
+
+- name: Configure the DNS resolver to use the local DNSMasq server
+  shell: echo "nameserver 127.0.0.1" > /etc/resolv.conf
+
+- name: Creating the "kvm" group
+  group:
+    name: kvm
+    gid: 36
+    state: present
+
+- name: Creating the "vdsm" user
+  user:
+    name: vdsm
+    uid: 36
+    state: present
+    group: kvm
+
+- name: Creating the NFS export directory
+  file:
+    path: "{{ nfs_export_dir }}"
+    state: directory
+
+- name: Partioning the storage disk
+  parted:
+    device: /dev/vdb
+    number: 1
+    state: present
+
+- name: Formatting the new partition
+  filesystem:
+    dev: /dev/vdb1
+    fstype: "{{ storage_file_system }}"
+
+- name: Adding the mount point to /etc/fstab
+  lineinfile:
+    path: /etc/fstab
+    backup: yes
+    line: "/dev/vdb1 {{ nfs_export_dir }} xfs defaults 1 1"
+
+- name: Remounting /etc/fstab partitions
+  shell: mount -a
+
+- name: Correcting the permissions on the NFS export directory
+  file:
+    path: /exports/data
+    mode: 0755
+    owner: vdsm
+    group: kvm
+
+- name: Adding the NFS export
+  lineinfile:
+    path: /etc/exports
+    backup: yes
+    line: "{{ nfs_export_dir }} *(rw,no_root_squash)"
+
+- name: Restarting NFS
+  service:
+    name: nfs
+    state: restarted
+    enabled: yes
+
+- name: Configuring two FQDNs
+  lineinfile:
+    path: /etc/hosts
+    backup: yes
+    line: "{{ item }}"
+  with_items:
+    - "{{ ansible_default_ipv4.address }} {{ hostname_hypervisor }}"
+    - "192.168.121.201 {{ hostname_ovirt_engine }}"
+
+- name: "Installing the stable oVirt {{ ovirt_version_major }}.{{ ovirt_version_minor }} repository"
+  package:
+    name: "http://resources.ovirt.org/pub/yum-repo/ovirt-release{{ ovirt_version_major }}{{ ovirt_version_minor }}.rpm"
+    state: present
+  when: not enable_branch_master
+
+- name: "Installing the development oVirt {{ ovirt_version_major }}.{{ ovirt_version_minor }} repository"
+  package:
+    name: "http://resources.ovirt.org/pub/yum-repo/ovirt-release{{ ovirt_version_major }}{{ ovirt_version_minor }}-snapshot.rpm"
+    state: present
+  when: (not enable_branch_master) and
+        (enable_branch_development)
+
+- name: Installing the master oVirt repository
+  package:
+    name: http://resources.ovirt.org/pub/yum-repo/ovirt-release-master.rpm
+    state: present
+  when: enable_branch_master
+
+- name: Installing oVirt packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_flattened:
+    - ovirt-hosted-engine-setup
+    - ovirt-engine-appliance
+
+- name: Disabling SELinux to prevent NFS permission issues
+  shell: setenforce 0
+
+- debug:
+    msg: "Continue the installation by running \"sudo hosted-engine --deploy\" inside of the virtual machine"
