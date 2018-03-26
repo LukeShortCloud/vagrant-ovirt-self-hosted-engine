@@ -22,27 +22,23 @@ $ vagrant ssh
 $ sudo hosted-engine --deploy
 ```
 
-Use the default values for everything. Be sure to set the NFS export with the Vagrant virtual machine's IP address.
-
-oVirt 4.1:
-```
-          Please specify the storage you would like to use (glusterfs, iscsi, fc, nfs3, nfs4)[nfs3]: nfs4
-          Please specify the full shared storage connection path to use (example: host:/path): <VM_IP>:/exports/data
-```
-```
-          Please provide the FQDN for the engine you would like to use.
-          This needs to match the FQDN that you will use for the engine installation within the VM.
-          Note: This will be the FQDN of the VM you are now going to create,
-          it should not point to the base host or to any other existing machine.
-          Engine FQDN:  []: engine.example.com
-```
+Use the default values for almost everything. Set a lower maximum RAM allocation, static IP addressing, and specify the NFS export mount via the Vagrant virtual machine's IP address.
 
 oVirt 4.2:
 
+
 ```
-          Please specify the storage you would like to use (glusterfs, iscsi, fc, nfs)[nfs]: nfs
-          Please specify the nfs version you would like to use (auto, v3, v4, v4_1)[auto]: v4_1
-          Please specify the full shared storage connection path to use (example: host:/path): <VM_IP>:/exports/data
+          Please specify the memory size of the VM in MB (Defaults to maximum available): []: <LOWER_AMOUNT_OF_RAM_THAN_MAX>
+```
+```
+          How should the engine VM network be configured (DHCP, Static)[DHCP]? Static
+          Please enter the IP address to be used for the engine VM [192.168.121.2]: 192.168.121.201
+[ INFO  ] The engine VM will be configured to use 192.168.121.201/24
+          Please provide a comma-separated list (max 3) of IP addresses of domain name servers for the engine VM
+          Engine VM DNS (leave it empty to skip) [127.0.0.1]: <VAGRANT_VM_IP>
+          Add lines for the appliance itself and for this host to /etc/hosts on the engine VM?
+          Note: ensuring that this host could resolve the engine VM hostname is still up to you
+          (Yes, No)[No] Yes
 ```
 ```
           Please provide the FQDN for the engine you would like to use.
@@ -50,6 +46,11 @@ oVirt 4.2:
           Note: This will be the FQDN of the VM you are now going to create,
           it should not point to the base host or to any other existing machine.
           Engine FQDN:  []: engine.example.com
+```
+```
+          Please specify the storage you would like to use (glusterfs, iscsi, fc, nfs)[nfs]: nfs
+          Please specify the nfs version you would like to use (auto, v3, v4, v4_1)[auto]: auto
+          Please specify the full shared storage connection path to use (example: host:/path): <VAGRANT_VM_IP>:/exports/data
 ```
 
 ### Variables
