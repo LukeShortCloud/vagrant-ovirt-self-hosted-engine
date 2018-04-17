@@ -64,11 +64,6 @@ oVirt 4.2:
 * hostname_ovirt_engine = The hostname to use for the oVirt Engine that will be nested virtualized inside the Vagrant virtual machine. This fully qualified domain name (FQDN) should not already be in use by any other nodes.
 * storage_file_system = The file system to use for the volume that will be created and mounted to the `nfs_export_dir`.
 
-References:
-
-* http://lists.ovirt.org/pipermail/users/2018-January/086631.html
-* https://bugzilla.redhat.com/show_bug.cgi?id=1533500
-
 ## License
 
 Apache 2.0
