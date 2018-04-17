@@ -64,24 +64,6 @@ oVirt 4.2:
 * hostname_ovirt_engine = The hostname to use for the oVirt Engine that will be nested virtualized inside the Vagrant virtual machine. This fully qualified domain name (FQDN) should not already be in use by any other nodes.
 * storage_file_system = The file system to use for the volume that will be created and mounted to the `nfs_export_dir`.
 
-## Known Issues
-
-In oVirt 4.2, the installation might fail due to what looks to be an ASCII encoding issue. The real problem here is that there was an issue with the specified NFS mount. The oVirt >= 4.3 release should fix the parsing of the error.
-
-```
-[ INFO  ] TASK [Copy configuration files to the right location on host]                                                                   
-[ INFO  ] TASK [Copy configuration archive to storage]
-[ ERROR ]  [WARNING]: Failure using method (v2_runner_on_failed) in callback plugin                                                       
-
-[ ERROR ] (<ansible.plugins.callback.1_otopi_json.CallbackModule object at 0x190d650>):                                                   
-
-[ ERROR ] 'ascii' codec can't encode character u'\u2018' in position 494: ordinal not in                                                  
-
-[ ERROR ] range(128)
-
-[ ERROR ] Failed to execute stage 'Closing up': Failed executing ansible-playbook
-```
-
 References:
 
 * http://lists.ovirt.org/pipermail/users/2018-January/086631.html
