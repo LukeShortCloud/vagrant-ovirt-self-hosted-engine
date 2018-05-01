@@ -2,7 +2,7 @@
 # Major version 3 and below are not supported and may not work.
 ovirt_version_major: 4
 ovirt_version_minor: 2
-enable_branch_development: True
+enable_branch_development: False
 # Do not install the stable or development version defined above.
 # Instead, install the latest master snapshot packages.
 enable_branch_master: False
