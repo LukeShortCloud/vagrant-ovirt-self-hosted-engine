@@ -22,7 +22,7 @@ $ vagrant ssh
 $ sudo hosted-engine --deploy
 ```
 
-Use the default values for almost everything. Set a lower maximum RAM allocation, static IP addressing, and specify the NFS export mount via the Vagrant virtual machine's IP address. For more information on settings and how how to get started, refer to the [Root Pages' Virtualization guide for oVirt](https://github.com/ekultails/rootpages/blob/master/src/virtualization.rst#ovirt).
+Use the default values for almost everything. Set a lower maximum RAM allocation, static IP addressing, and specify the NFS export mount via the Vagrant virtual machine's IP address. For more information on settings and how to get started, refer to the [Root Pages' Virtualization guide for oVirt](https://github.com/ekultails/rootpages/blob/master/src/virtualization.rst#ovirt).
 
 oVirt 4.2:
 
