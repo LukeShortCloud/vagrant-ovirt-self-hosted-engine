@@ -60,7 +60,7 @@ oVirt 4.2:
 * enable_branch_development = Install the latest development/snapshot packages corresponding to the version defined above.
 * enable_branch_master = Install the latest packages for the next upcoming minor version of oVirt. This will ignore the previous `ovirt_version_*` settings.
 * nfs_export_dir = The directory to create a network share for and to mount an additional volume to.
-* hostname_hypervisor = The hostname for the Vagrant virtual machine.
+* hostname_vagrant = The hostname for the Vagrant virtual machine.
 * hostname_ovirt_engine = The hostname to use for the oVirt Engine that will be nested virtualized inside the Vagrant virtual machine. This fully qualified domain name (FQDN) should not already be in use by any other nodes.
 * storage_file_system = The file system to use for the volume that will be created and mounted to the `nfs_export_dir`.
 

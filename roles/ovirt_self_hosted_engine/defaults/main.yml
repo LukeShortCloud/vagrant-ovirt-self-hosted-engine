@@ -7,6 +7,6 @@ enable_branch_development: False
 # Instead, install the latest master snapshot packages.
 enable_branch_master: False
 nfs_export_dir: /exports/data
-hostname_hypervisor: hypervisor.example.com
+hostname_vagrant: hypervisor.example.com
 hostname_ovirt_engine: engine.example.com
 storage_file_system: xfs

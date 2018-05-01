@@ -1,7 +1,7 @@
 ---
 - name: Setting the hostname
   hostname:
-    name: "{{ hostname_hypervisor }}"
+    name: "{{ hostname_vagrant }}"
 
 - name: Installing DNSMasq
   package:
@@ -16,7 +16,7 @@
   with_items:
     - "server=8.8.8.8"
     - "server=8.8.4.4"
-    - "address=/{{ hostname_hypervisor }}/{{ ansible_default_ipv4.address }}"
+    - "address=/{{ hostname_vagrant }}/{{ ansible_default_ipv4.address }}"
     - "address=/{{ hostname_ovirt_engine }}/192.168.121.201"
 
 - name: Restart DNSMasq
@@ -91,7 +91,7 @@
     backup: yes
     line: "{{ item }}"
   with_items:
-    - "{{ ansible_default_ipv4.address }} {{ hostname_hypervisor }}"
+    - "{{ ansible_default_ipv4.address }} {{ hostname_vagrant }}"
     - "192.168.121.201 {{ hostname_ovirt_engine }}"
 
 - name: "Installing the stable oVirt {{ ovirt_version_major }}.{{ ovirt_version_minor }} repository"
