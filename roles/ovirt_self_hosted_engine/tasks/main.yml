@@ -121,8 +121,11 @@
     - ovirt-hosted-engine-setup
     - ovirt-engine-appliance
 
-- name: Disabling SELinux to prevent NFS permission issues
+- name: Disabling SELinux to prevent NFS permission issues and to allow MAC spoofing in the nested virtual machines (for OpenStack Ironic)
   shell: setenforce 0
+
+- debug:
+    msg: For production deployments on bare metal, it is highly recommended to enable SELinux
 
 - debug:
     msg: "Continue the installation by running \"sudo hosted-engine --deploy\" inside of the virtual machine"
