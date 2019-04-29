@@ -4,7 +4,7 @@ This Vagrantfile and Ansible Playbook provides a way to easily setup an all-in-o
 
 ## Requirements
 
-* KVM+QEMU with [nested virtualization enabled](https://github.com/ekultails/rootpages/blob/master/src/virtualization.rst#nested-virtualization)
+* KVM+QEMU with [nested virtualization enabled](https://ekultails.github.io/rootpages/virtualization/virtual_machines.html#nested-virtualization)
 * [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt)
 
 ## Usage
@@ -22,7 +22,7 @@ $ vagrant ssh
 $ sudo hosted-engine --deploy
 ```
 
-Use the default values for almost everything. Set a lower maximum RAM allocation, static IP addressing, and specify the NFS export mount via the Vagrant virtual machine's IP address. For more information on settings and how to get started, refer to the [Root Pages' Virtualization guide for oVirt](https://github.com/ekultails/rootpages/blob/master/src/virtualization.rst#ovirt).
+Use the default values for almost everything. Set a lower maximum RAM allocation, static IP addressing, and specify the NFS export mount via the Vagrant virtual machine's IP address. For more information on settings and how to get started, refer to the [Root Pages' Virtualization guide for oVirt](https://ekultails.github.io/rootpages/virtualization/virtual_machines.html#ovirt).
 
 oVirt 4.2:
 
